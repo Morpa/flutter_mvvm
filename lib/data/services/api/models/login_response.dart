@@ -1,7 +1,7 @@
 class LoginResponse {
   final String accessToken;
   final String refreshToken;
-  final String id;
+  final int id;
   final String username;
   final String email;
   final String firstName;
@@ -39,7 +39,7 @@ class LoginResponse {
     return LoginResponse(
       accessToken: json['accessToken'] ?? '',
       refreshToken: json['refreshToken'] ?? '',
-      id: json['id'] ?? '',
+      id: json['id'] ?? 0,
       username: json['username'] ?? '',
       email: json['email'] ?? '',
       firstName: json['firstName'] ?? '',
