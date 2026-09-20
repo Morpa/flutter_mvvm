@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mvvm/routing/routes.dart';
 import 'package:flutter_mvvm/ui/auth/login/view_models/login_viewmodel.dart';
-import 'package:go_router/go_router.dart';
 
 class LoginFormWidget extends StatefulWidget {
   final LoginViewmodel loginViewmodel;
@@ -129,7 +127,6 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     }
 
     if (command.completed) {
-      context.go(Routes.home);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Login realizado com sucesso!'),
