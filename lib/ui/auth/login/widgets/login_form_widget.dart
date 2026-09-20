@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mvvm/routing/routes.dart';
 import 'package:flutter_mvvm/ui/auth/login/view_models/login_viewmodel.dart';
-import 'package:flutter_mvvm/ui/home/widgets/home_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginFormWidget extends StatefulWidget {
   final LoginViewmodel loginViewmodel;
@@ -15,6 +16,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  bool isPasswordVisible = true;
 
   @override
   void initState() {
@@ -48,7 +51,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             children: [
               Row(children: [Text('Senha')]),
               TextFormField(
-                obscureText: true,
+                obscureText: isPasswordVisible,
                 controller: passwordController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -56,7 +59,15 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                   }
                   return null;
                 },
-                decoration: InputDecoration(border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    onPressed: toggleVisibilit,
+                    icon: isPasswordVisible
+                        ? Icon(Icons.visibility_off)
+                        : Icon(Icons.visibility),
+                  ),
+                ),
               ),
             ],
           ),
@@ -91,6 +102,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     );
   }
 
+  void toggleVisibilit() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
+
   void _validateForm() async {
     if (_formKey.currentState?.validate() == true) {
       final username = usernameController.text;
@@ -112,15 +129,12 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
     }
 
     if (command.completed) {
+      context.go(Routes.home);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Login realizado com sucesso!'),
           backgroundColor: Colors.green,
         ),
-      );
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-        (route) => false,
       );
     }
   }
