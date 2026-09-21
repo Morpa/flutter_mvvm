@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_mvvm/data/repositories/auth/auth_repository.dart';
 import 'package:flutter_mvvm/data/repositories/auth/auth_repository_remote.dart';
+import 'package:flutter_mvvm/data/repositories/product/product_repository.dart';
+import 'package:flutter_mvvm/data/repositories/product/product_repository_remote.dart';
 import 'package:flutter_mvvm/data/services/api/api_client.dart';
 import 'package:flutter_mvvm/data/services/shared_preferencies_service.dart';
 import 'package:get_it/get_it.dart';
@@ -21,5 +23,9 @@ void setupDependecies() {
       apiClient: getIt(),
       sharedPreferenciesService: getIt(),
     ),
+  );
+
+  getIt.registerLazySingleton<ProductRepository>(
+    () => ProductRepositoryRemote(apiClient: getIt()),
   );
 }
